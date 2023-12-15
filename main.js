@@ -1,4 +1,4 @@
 import "./style.css";
-import { game } from "./Game";
+import { animation } from "./Animation";
 
-addEventListener("load", () => game.start());
+addEventListener("load", () => animation.start());

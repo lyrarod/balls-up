@@ -1,5 +1,10 @@
 {
-  "name": "teste",
+  "name": "Balls Up Javascript HTML5 Canvas",
+  "author": {
+    "name": "Rodrigo Lira",
+    "email": "lyrarod@gmail.com",
+    "url": "https://github.com/lyrarod/balls-up"
+  },
   "private": true,
   "version": "0.0.0",
   "type": "module",

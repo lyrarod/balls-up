@@ -1,6 +1,6 @@
-import { Enemy } from "./Enemy";
+import { Ball } from "./Ball";
 
-class Game {
+class Animation {
   constructor() {
     this.canvas = document.createElement("canvas");
     this.context = this.canvas.getContext("2d");
@@ -8,30 +8,33 @@ class Game {
     this.height = this.canvas.height = innerHeight;
     app.append(this.canvas);
 
-    this.enemy = new Enemy(this);
+    this.ball = new Ball(this);
 
-    this.gameObjects = [];
+    this.ballsObjectPool = [this.ball];
 
     this.frame = 0;
     this.interval = 1000 / 60;
     this.lasttime = 0;
+
+    addEventListener("resize", () => {
+      this.width = this.canvas.width = innerWidth;
+      this.height = this.canvas.height = innerHeight;
+      this.ball.balls = [];
+    });
   }
 
   start() {
     this.render();
-    this.gameObjects = [this.enemy];
   }
 
   render = (timestamp = 0) => {
     let deltatime = timestamp - this.lasttime;
-    // console.log(Math.floor(deltatime));
     this.lasttime = timestamp;
 
-    // this.context.clearRect(0, 0, this.width, this.height);
-    this.context.fillStyle = "#000";
+    this.context.fillStyle = "#0001";
     this.context.fillRect(0, 0, this.width, this.height);
 
-    this.gameObjects.forEach((object) => {
+    this.ballsObjectPool.forEach((object) => {
       object.update(deltatime, this.context);
     });
 
@@ -39,5 +42,4 @@ class Game {
   };
 }
 
-export const game = new Game();
-console.log(game);
+export const animation = new Animation();
