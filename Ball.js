@@ -1,15 +1,18 @@
 export class Ball {
-  constructor(game) {
-    this.game = game;
-    this.radius = 1 + Math.random() * 19;
+  constructor(animation) {
+    this.animation = animation;
+
+    this.radius = 1 + Math.random() * 9;
     this.x =
-      Math.floor(Math.random() * (this.game.width - this.radius * 2)) +
+      Math.floor(Math.random() * (this.animation.width - this.radius * 2)) +
       this.radius;
-    this.y = this.game.height + this.radius;
-    this.speed = 0.25 + Math.random() * 1.75;
+    this.y = this.animation.height + this.radius;
+    this.speed = 0.2 + Math.random() * 1.8;
 
     this.balls = [];
+    this.numberOfBalls = 0;
     this.isRemoved = false;
+    this.mediaQueryList = null;
 
     this.colors = [
       "firebrick",
@@ -40,15 +43,25 @@ export class Ball {
 
     this.frame = 0;
     this.interval = 1000 / 60;
+
+    this.resize();
+  }
+
+  resize() {
+    this.balls = [];
+    this.mediaQueryList = window.matchMedia("(min-width: 769px)").matches;
+    this.mediaQueryList
+      ? (this.numberOfBalls = 1000)
+      : (this.numberOfBalls = 500);
   }
 
   update(deltatime, context) {
-    if (this.balls.length < 500) {
+    if (this.balls.length < this.numberOfBalls) {
       this.frame--;
 
       if (this.frame < 0) {
-        this.balls.push(new Ball(this.game));
-        this.frame = 15;
+        this.balls.push(new Ball(this.animation));
+        this.frame = 8;
       }
     }
 
@@ -70,11 +83,13 @@ export class Ball {
 
   draw(context) {
     context.save();
-    context.fillStyle = this.color;
     context.beginPath();
+    context.fillStyle = this.color;
+    context.shadowColor = "#fff5";
+    context.shadowOffsetY = 1;
     context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    context.closePath();
     context.fill();
+    context.closePath();
     context.restore();
   }
 }
